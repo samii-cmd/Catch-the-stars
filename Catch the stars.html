@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Catch the Star!</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #fce4ec;
+      text-align: center;
+    }
+
+    h1 {
+      color: #8e4162;
+      margin-top: 20px;
+    }
+
+    #score {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    #timer {
+      font-size: 18px;
+    }
+
+    #gameArea {
+      width: 90%;
+      max-width: 600px;
+      height: 400px;
+      margin: 20px auto;
+      background: white;
+      border: 4px solid #8e4162;
+      border-radius: 15px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    #star {
+      position: absolute;
+      font-size: 45px;
+      cursor: pointer;
+      user-select: none;
+      display: none;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: #8e4162;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>⭐ Catch the Star! ⭐</h1>
+
+  <div id="score">Score: 0</div>
+  <div id="timer">Time: 15</div>
+
+  <button onclick="startGame()">Start Game</button>
+
+  <div id="gameArea">
+    <div id="star" onclick="catchStar()">⭐</div>
+  </div>
+
+  <script>
+    let score = 0;
+    let time = 15;
+    let timer;
+
+    const star = document.getElementById("star");
+    const gameArea = document.getElementById("gameArea");
+
+    function startGame() {
+      score = 0;
+      time = 15;
+
+      document.getElementById("score").textContent = "Score: 0";
+      document.getElementById("timer").textContent = "Time: 15";
+
+      star.style.display = "block";
+      moveStar();
+
+      clearInterval(timer);
+
+      timer = setInterval(function() {
+        time--;
+
+        document.getElementById("timer").textContent =
+          "Time: " + time;
+
+        if (time <= 0) {
+          clearInterval(timer);
+          star.style.display = "none";
+
+          alert("Time's up! Your score was " + score + " ⭐");
+        }
+      }, 1000);
+    }
+
+    function catchStar() {
+      score++;
+
+      document.getElementById("score").textContent =
+        "Score: " + score;
+
+      moveStar();
+    }
+
+    function moveStar() {
+      const maxX = gameArea.clientWidth - star.offsetWidth;
+      const maxY = gameArea.clientHeight - star.offsetHeight;
+
+      const x = Math.random() * maxX;
+      const y = Math.random() * maxY;
+
+      star.style.left = x + "px";
+      star.style.top = y + "px";
+    }
+  </script>
+
+</body>
+</html>
